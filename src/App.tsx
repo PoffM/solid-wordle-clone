@@ -1,10 +1,10 @@
 import type { Component } from "solid-js";
-import styles from "./App.module.css";
+import { WordleGame } from "./components/WordleGame";
 
 const App: Component = () => {
   return (
-    <div class={styles.App}>
-      <h1 class="font-bold underline text-4xl">Hello world!</h1>
+    <div style={{ height: "calc(100vh - env(safe-area-inset-bottom))" }}>
+      <WordleGame />
     </div>
   );
 };
