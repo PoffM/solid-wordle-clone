@@ -11,6 +11,7 @@ export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
     <div class={clsx("modal", isOpen() && "modal-open")}>
       <div class="modal-box animate-fadeIn relative">
         <button
+          type="button"
           class="btn btn-sm btn-circle absolute right-2 top-2"
           onClick={onClose}
         >
@@ -46,7 +47,7 @@ export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
             <div class="w-[15rem] mb-1">
               <LetterGridRow
                 rowGuess={() => "PILLS"}
-                solution={() => "XIXXX"}
+                solution={() => "XXIXX"}
                 isSubmitted={() => true}
                 initiallyRevealed={true}
               />
@@ -65,6 +66,11 @@ export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
             <p>No letters in the guess are in the word.</p>
           </div>
         </div>
+        <footer class="flex justify-end">
+          <button type="button" class="btn" onClick={onClose}>
+            Close
+          </button>
+        </footer>
       </div>
     </div>
   );
