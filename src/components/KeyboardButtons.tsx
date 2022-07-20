@@ -52,12 +52,12 @@ export function KeyboardButtons({
 
   function letterButtonProps(letter: string): ComponentProps<"button"> {
     const className = correctLetters().has(letter)
-      ? "bg-green-500"
+      ? "bg-green-500 text-white"
       : misplacedLetters().has(letter)
-      ? "bg-yellow-500"
+      ? "bg-yellow-500 text-white"
       : submittedLettersSet().has(letter)
-      ? "bg-gray-500"
-      : "bg-gray-500 text-black";
+      ? "bg-gray-500 text-white"
+      : "bg-gray-300 text-black";
 
     return {
       onClick: () => onLetterClick?.(letter.charCodeAt(0)),
@@ -76,14 +76,18 @@ export function KeyboardButtons({
         ))}
       </div>
       <div class={rowClasses}>
+        <div class="flex-[0.5]" />
         {[..."ASDFGHJKL"].map((letter) => (
           <KeyButton {...letterButtonProps(letter)} />
         ))}
+        <div class="flex-[0.5]" />
       </div>
       <div class={rowClasses}>
+        <KeyButton class="flex-[1.65]" />
         {[..."ZXCVBNM"].map((letter) => (
           <KeyButton {...letterButtonProps(letter)} />
         ))}
+        <KeyButton class="flex-[1.65]" />
       </div>
     </div>
   );
@@ -100,7 +104,7 @@ function KeyButton(props: ComponentProps<"button">) {
         props.onClick?.(e);
         (e.target as any)?.blur();
       }}
-      class={clsx("h-full flex-grow", props.class)}
+      class={clsx("h-full flex-1 rounded", props.class)}
     />
   );
 }
