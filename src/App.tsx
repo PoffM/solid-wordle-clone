@@ -1,13 +1,18 @@
 import type { Component } from "solid-js";
 import { WordleGame } from "./components/WordleGame";
+import { WordleHeader } from "./components/WordleHeader";
 
 const App: Component = () => {
   return (
     <div
-      class="flex justify-center"
+      data-theme="light"
+      class="flex flex-col"
       style={{ height: "calc(100vh - env(safe-area-inset-bottom))" }}
     >
-      <WordleGame />
+      <WordleHeader />
+      <div class="flex-grow flex justify-center h-100">
+        <WordleGame />
+      </div>
     </div>
   );
 };

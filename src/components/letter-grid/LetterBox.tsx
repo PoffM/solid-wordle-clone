@@ -62,7 +62,8 @@ export function LetterBox({
         <div
           class={clsx(
             letterBoxClass,
-            "[transform:rotateX(-180deg)] animate-flipIn text-white",
+            !initiallyRevealed && "[transform:rotateX(-180deg)] animate-flipIn",
+            "text-white",
             `bg-${bgColor()}`
           )}
         >
@@ -70,16 +71,18 @@ export function LetterBox({
         </div>
       )}
       {/* Front of card (black and white) */}
-      <div
-        class={clsx(
-          letterBoxClass,
-          "border-2 text-black",
-          letter() ? "border-black animate-popIn" : "border-gray-400",
-          revealed() && "animate-flipOut"
-        )}
-      >
-        {letter()}
-      </div>
+      {!initiallyRevealed && (
+        <div
+          class={clsx(
+            letterBoxClass,
+            "border-2 text-black",
+            letter() ? "border-black animate-popIn" : "border-gray-400",
+            revealed() && "animate-flipOut"
+          )}
+        >
+          {letter()}
+        </div>
+      )}
     </div>
   );
 }

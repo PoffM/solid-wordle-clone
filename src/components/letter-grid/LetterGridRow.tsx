@@ -6,7 +6,7 @@ import { LetterBox } from "./LetterBox";
 export interface LetterGridRowProps {
   rowGuess: () => string | undefined;
   solution: () => string;
-  rowError: () => { message: string } | null;
+  rowError?: () => { message: string } | null;
   isSubmitted: () => boolean;
   onRowRevealed?: () => void;
   /** Renders the letter boxes with the solution color already revealed. */
@@ -32,7 +32,7 @@ export function LetterGridRow({
   let rowDiv: HTMLDivElement | undefined;
   // Shake horizontally when there is a new error:
   createEffect(() => {
-    if (rowError() && rowDiv) {
+    if (rowError?.() && rowDiv) {
       const shakeClass = "animate-shake";
       rowDiv.classList.remove(shakeClass);
       setTimeout(() => rowDiv?.classList.add(shakeClass));
