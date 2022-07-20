@@ -2,7 +2,7 @@ import { get, range } from "lodash";
 import { createMemo, onCleanup } from "solid-js";
 import { createWordleState } from "../logic/createWordleState";
 import { KeyboardButtons } from "./KeyboardButtons";
-import { LetterGrid } from "./LetterGrid";
+import { LetterGrid } from "./letter-grid/LetterGrid";
 
 const ALPHABET = range(0, 26).map((i) => String.fromCharCode(i + 65));
 
