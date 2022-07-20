@@ -68,7 +68,8 @@ export function createWordleState(params: WordleStateParams = {}) {
           : null;
 
       if (currentGuessError) {
-        return { ...wordleState(), currentGuessError };
+        setWordleState({ ...wordleState(), currentGuessError });
+        return;
       }
 
       const newSubmittedGuesses = [...submittedGuesses, currentGuess];
