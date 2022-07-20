@@ -47,20 +47,36 @@ export function LetterBox({
     }
   });
 
+  const letterBoxClass =
+    "absolute w-full h-full flex items-center justify-center font-bold select-none text-[2rem] [backface-visibility:hidden]";
+
   return (
-    <div class="relative aspect-square flex-1">
+    <div
+      class="relative aspect-square flex-1"
+      data-background-color={bgColor()}
+      data-revealed={revealed()}
+      data-testid="letter-box"
+    >
+      {/* Back of card (revealed with color) */}
+      {revealed() && (
+        <div
+          class={clsx(
+            letterBoxClass,
+            "[transform:rotateX(-180deg)] animate-flipIn text-white",
+            `bg-${bgColor()}`
+          )}
+        >
+          {letter()}
+        </div>
+      )}
+      {/* Front of card (black and white) */}
       <div
         class={clsx(
-          "absolute w-full h-full flex items-center justify-center font-bold select-none text-[2rem]",
-          !revealed() && "border-2",
-          `bg-${bgColor()}`,
+          letterBoxClass,
+          "border-2 text-black",
           letter() ? "border-black" : "border-gray-400",
-          revealed() ? "text-white" : "text-black",
-          revealed() && "flip-out"
+          revealed() && "animate-flipOut"
         )}
-        data-testid="letter-box"
-        data-background-color={bgColor()}
-        data-revealed={revealed()}
       >
         {letter()}
       </div>
