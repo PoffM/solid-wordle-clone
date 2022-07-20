@@ -74,7 +74,7 @@ export function LetterBox({
         class={clsx(
           letterBoxClass,
           "border-2 text-black",
-          letter() ? "border-black" : "border-gray-400",
+          letter() ? "border-black animate-popIn" : "border-gray-400",
           revealed() && "animate-flipOut"
         )}
       >
