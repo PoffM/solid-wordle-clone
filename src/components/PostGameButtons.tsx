@@ -14,7 +14,7 @@ export function PostGameButtons({
   const solution = createMemo(() => wordleState().solution);
 
   return (
-    <div class="flex flex-col">
+    <div class="flex flex-col gap-2">
       {status() === "LOST" && (
         <div class="text-center">
           <h2>SOLUTION</h2>
@@ -27,7 +27,7 @@ export function PostGameButtons({
         </div>
       )}
       <div class="flex w-full">
-        <button class="flex-1 bg-green-500" onClick={onRestartClick}>
+        <button class="flex-1 bg-green-500 rounded py-2" onClick={onRestartClick}>
           Next Word
         </button>
       </div>
