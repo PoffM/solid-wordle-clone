@@ -3,6 +3,7 @@ import { createMemo, onCleanup } from "solid-js";
 import { createWordleState } from "../logic/createWordleState";
 import { KeyboardButtons } from "./KeyboardButtons";
 import { LetterGrid } from "./letter-grid/LetterGrid";
+import { PostGameButtons } from "./PostGameButtons";
 
 const ALPHABET = range(0, 26).map((i) => String.fromCharCode(i + 65));
 
@@ -13,6 +14,7 @@ export function WordleGame() {
     addLetterToGuess,
     removeLastLetterFromGuess,
     submitGuess,
+    restart,
   } = createWordleState({ solution: "REACT" });
 
   // Key presses change the game state:
@@ -42,6 +44,8 @@ export function WordleGame() {
       : wordleState().submittedGuesses
   );
 
+  const status = createMemo(() => wordleState().status);
+
   return (
     <div class="flex flex-col h-full w-full max-w-[31rem]">
       {/* <WordleHeader /> */}
@@ -49,8 +53,10 @@ export function WordleGame() {
         <LetterGrid wordleState={wordleState} onRowRevealed={continueGame} />
       </div>
       <div class="h-[12rem] p-1.5">
-        {(wordleState().status === "GUESSING" ||
-          wordleState().status === "REVEALING") && (
+        {(status() === "WON" || status() === "LOST") && (
+          <PostGameButtons onRestartClick={restart} wordleState={wordleState} />
+        )}
+        {(status() === "GUESSING" || status() === "REVEALING") && (
           <KeyboardButtons
             submittedGuesses={revealedGuesses}
             solution={() => wordleState().solution}
