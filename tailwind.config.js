@@ -1,8 +1,38 @@
+const colors = require("tailwindcss/colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        gray: colors.neutral,
+        yellow: {
+          50: "#fcf6e1",
+          100: "#ede5c0",
+          200: "#e0d49c",
+          300: "#d3c277",
+          400: "#c7b152",
+          500: "#ad9838",
+          600: "#87762a",
+          700: "#60541c",
+          800: "#3a330e",
+          900: "#151100",
+        },
+        green: {
+          50: "#e8f9e8",
+          100: "#cce5cb",
+          200: "#aed3ab",
+          300: "#8fbf8b",
+          400: "#70ad6b",
+          500: "#579452",
+          600: "#43733f",
+          700: "#2e522b",
+          800: "#1a3218",
+          900: "#021200",
+        },
+      },
       keyframes: {
         flipOut: {
           "0%": { transform: "rotateX(0deg)" },

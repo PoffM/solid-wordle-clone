@@ -1,12 +1,18 @@
-import clsx from "clsx";
 import { createSignal } from "solid-js";
 import { WordleInfoModal } from "./WordleInfoModal";
 
-export function WordleHeader() {
+export interface WordleHeaderProps {
+  colorMode: () => string;
+  onToggleColorMode: () => void;
+}
+
+export function WordleHeader({
+  colorMode,
+  onToggleColorMode,
+}: WordleHeaderProps) {
   const helpLabel = "Help";
-  // const colorModeLabel = `Switch to ${
-  //   colorMode === "dark" ? "Light" : "Dark"
-  // } mode.`;
+  const colorModeLabel = () =>
+    `Switch to ${colorMode() === "dark" ? "Light" : "Dark"} mode.`;
 
   const [infoIsOpen, setInfoOpen] = createSignal(false);
 
@@ -26,7 +32,14 @@ export function WordleHeader() {
         <h1 class="text-3xl font-bold">Solid Wordle Clone</h1>
       </div>
       <div class="flex items-center">
-        <button class="btn btn-sm w-[40px] h-[40px]">C</button>
+        <button
+          class="btn btn-sm w-[40px] h-[40px]"
+          aria-label={colorModeLabel()}
+          title={colorModeLabel()}
+          onClick={onToggleColorMode}
+        >
+          C
+        </button>
       </div>
       <WordleInfoModal isOpen={infoIsOpen} onClose={() => setInfoOpen(false)} />
     </div>
