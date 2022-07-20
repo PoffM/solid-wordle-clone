@@ -83,11 +83,21 @@ export function KeyboardButtons({
         <div class="flex-[0.5]" />
       </div>
       <div class={rowClasses}>
-        <KeyButton class="flex-[1.65]" />
+        <KeyButton
+          class="flex-[1.65] bg-gray-300 text-black font-bold"
+          onClick={onEnterClick}
+        >
+          ENTER
+        </KeyButton>
         {[..."ZXCVBNM"].map((letter) => (
           <KeyButton {...letterButtonProps(letter)} />
         ))}
-        <KeyButton class="flex-[1.65]" />
+        <KeyButton
+          class="flex-[1.65] bg-gray-300 text-black font-bold"
+          onClick={onBackspaceClick}
+        >
+          BACK
+        </KeyButton>
       </div>
     </div>
   );
