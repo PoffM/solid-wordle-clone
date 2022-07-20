@@ -1,4 +1,8 @@
 const colors = require("tailwindcss/colors");
+const {
+  "[data-theme=light]": light,
+  "[data-theme=dark]": dark,
+} = require("daisyui/src/colors/themes");
 
 const green = {
   50: "#e8f9e8",
@@ -80,12 +84,14 @@ module.exports = {
       // The green 'success' color should match the green letter boxes:
       {
         light: {
+          ...light,
           success: green[500],
         },
         dark: {
+          ...dark,
           success: green[500],
         },
-      }
+      },
     ],
   },
 };

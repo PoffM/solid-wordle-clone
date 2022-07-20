@@ -74,7 +74,7 @@ export function KeyboardButtons({
   const rowClasses = "flex-grow flex gap-1.5";
 
   return (
-    <div class="h-full flex gap-1.5 flex-col">
+    <div class="h-full flex gap-1.5 flex-col font-semibold">
       <div class={rowClasses}>
         {[..."QWERTYUIOP"].map((letter) => (
           <KeyButton {...letterButtonProps(letter, "flex-1")} />
@@ -89,7 +89,7 @@ export function KeyboardButtons({
       </div>
       <div class={rowClasses}>
         <KeyButton
-          class={clsx(defaultButtonColors, "flex-[1.65] font-bold")}
+          class={clsx(defaultButtonColors, "flex-[1.65]")}
           onClick={onEnterClick}
         >
           ENTER
@@ -98,7 +98,7 @@ export function KeyboardButtons({
           <KeyButton  {...letterButtonProps(letter, "flex-1")} />
         ))}
         <KeyButton
-          class={clsx(defaultButtonColors, "flex-[1.65] font-bold")}
+          class={clsx(defaultButtonColors, "flex-[1.65]")}
           onClick={onBackspaceClick}
         >
           BACK
