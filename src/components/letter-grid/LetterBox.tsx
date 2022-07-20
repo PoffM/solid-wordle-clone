@@ -75,7 +75,7 @@ export function LetterBox({
         <div
           class={clsx(
             letterBoxClass,
-            "border-2 text-black dark:text-gray-100",
+            "border-2",
             letter()
               ? "border-black dark:border-gray-400 animate-popIn"
               : "border-gray-400 dark:border-gray-600",

@@ -1,3 +1,4 @@
+import { BsMoonFill, BsQuestionCircle, BsSunFill } from "solid-icons/bs";
 import { createSignal } from "solid-js";
 import { WordleInfoModal } from "./WordleInfoModal";
 
@@ -16,16 +17,19 @@ export function WordleHeader({
 
   const [infoIsOpen, setInfoOpen] = createSignal(false);
 
+  const buttonClass =
+    "btn btn-sm w-[40px] h-[40px]";
+
   return (
     <div class="flex items-center h-[3rem] border-b-2 border-gray-400 px-3 py-2">
       <div class="flex items-center">
         <button
-          class="btn btn-sm w-[40px] h-[40px]"
+          class={buttonClass}
           aria-label={helpLabel}
           title={helpLabel}
           onClick={() => setInfoOpen(true)}
         >
-          M
+          <BsQuestionCircle size="24px" />
         </button>
       </div>
       <div class="flex-grow flex justify-center">
@@ -33,12 +37,16 @@ export function WordleHeader({
       </div>
       <div class="flex items-center">
         <button
-          class="btn btn-sm w-[40px] h-[40px]"
+          class={buttonClass}
           aria-label={colorModeLabel()}
           title={colorModeLabel()}
           onClick={onToggleColorMode}
         >
-          C
+          {colorMode() === "dark" ? (
+            <BsSunFill size="20px" />
+          ) : (
+            <BsMoonFill size="20px" />
+          )}
         </button>
       </div>
       <WordleInfoModal isOpen={infoIsOpen} onClose={() => setInfoOpen(false)} />

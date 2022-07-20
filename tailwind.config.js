@@ -30,6 +30,8 @@ const yellow = {
   900: "#151100",
 };
 
+const gray = colors.neutral;
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
@@ -37,10 +39,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gray: colors.neutral,
+        gray,
         yellow,
         green,
-        success: green,
       },
       keyframes: {
         flipOut: {
@@ -85,11 +86,26 @@ module.exports = {
       {
         light: {
           ...light,
+          // Green 'success' button bg color:
           success: green[500],
+          // Default 'btn' button bg color:
+          neutral: gray[300],
+          "neutral-content": colors.black,
         },
         dark: {
           ...dark,
+          // Green 'success' button bg color:
           success: green[500],
+          // Default 'btn' button bg color:
+          neutral: gray[800],
+          // Button hover bg color:
+          "neutral-focus": gray[700],
+          // Button text color:
+          "neutral-content": colors.white,
+          // Text color:
+          "base-content": gray[100],
+          // Background color:
+          "base-100": gray[900],
         },
       },
     ],

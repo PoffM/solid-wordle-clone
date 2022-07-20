@@ -21,7 +21,7 @@ const App: Component = () => {
   return (
     <div data-theme={colorMode()} class={colorMode()}>
       <div
-        class="flex flex-col dark:bg-gray-900 text-black dark:text-gray-100"
+        class="flex flex-col"
         style={{ height: "calc(100vh - env(safe-area-inset-bottom))" }}
       >
         <WordleHeader
