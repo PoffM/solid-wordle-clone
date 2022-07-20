@@ -1,8 +1,11 @@
+import { uniqueId } from "lodash";
 import { createSignal } from "solid-js";
 import COMMON_WORDS from "../word-list/common-words.json";
 import UNCOMMON_WORDS from "../word-list/uncommon-words.json";
 
 export interface WordleState {
+  /** Unique ID per game instance. */
+  playId: string;
   solution: string;
   maxGuesses: number;
   wordLength: number;
@@ -122,6 +125,7 @@ function makeInitialState(solutionWord?: string): WordleState {
   }
 
   return {
+    playId: uniqueId(),
     solution,
     maxGuesses: 6,
     wordLength: solution.length,
