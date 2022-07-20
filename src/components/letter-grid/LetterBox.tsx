@@ -30,10 +30,10 @@ export function LetterBox({
   const bgColor = createMemo(() =>
     revealed()
       ? letterIsInRightSpot()
-        ? "green-500"
+        ? "bg-green-500"
         : letterIsInRemainingLetters()
-        ? "yellow-500"
-        : "gray-500"
+        ? "bg-yellow-500"
+        : "bg-gray-500 dark:bg-gray-600"
       : undefined
   );
 
@@ -64,7 +64,7 @@ export function LetterBox({
             letterBoxClass,
             !initiallyRevealed && "[transform:rotateX(-180deg)] animate-flipIn",
             "text-white",
-            `bg-${bgColor()}`
+            bgColor()
           )}
         >
           {letter()}
@@ -75,8 +75,10 @@ export function LetterBox({
         <div
           class={clsx(
             letterBoxClass,
-            "border-2 text-black",
-            letter() ? "border-black animate-popIn" : "border-gray-400",
+            "border-2 text-black dark:text-gray-100",
+            letter()
+              ? "border-black dark:border-gray-400 animate-popIn"
+              : "border-gray-400 dark:border-gray-600",
             revealed() && "animate-flipOut"
           )}
         >

@@ -50,6 +50,8 @@ export function KeyboardButtons({
       )
   );
 
+  const defaultButtonColors = "bg-gray-300 dark:bg-gray-500 text-black dark:text-white"
+
   function letterButtonProps(
     letter: string,
     classes?: string
@@ -59,8 +61,8 @@ export function KeyboardButtons({
       : misplacedLetters().has(letter)
       ? "bg-yellow-500 text-white"
       : submittedLettersSet().has(letter)
-      ? "bg-gray-500 text-white"
-      : "bg-gray-300 text-black";
+      ? "bg-gray-500 dark:bg-gray-700 text-white"
+      : defaultButtonColors;
 
     return {
       onClick: () => onLetterClick?.(letter.charCodeAt(0)),
@@ -87,7 +89,7 @@ export function KeyboardButtons({
       </div>
       <div class={rowClasses}>
         <KeyButton
-          class="flex-[1.65] bg-gray-300 text-black font-bold"
+          class={clsx(defaultButtonColors, "flex-[1.65] font-bold")}
           onClick={onEnterClick}
         >
           ENTER
@@ -96,7 +98,7 @@ export function KeyboardButtons({
           <KeyButton  {...letterButtonProps(letter, "flex-1")} />
         ))}
         <KeyButton
-          class="flex-[1.65] bg-gray-300 text-black font-bold"
+          class={clsx(defaultButtonColors, "flex-[1.65] font-bold")}
           onClick={onBackspaceClick}
         >
           BACK

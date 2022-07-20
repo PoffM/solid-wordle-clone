@@ -26,11 +26,12 @@ export function PostGameButtons({
           <p class="text-3xl">WINNER!</p>
         </div>
       )}
-      <div class="flex w-full">
-        <button class="flex-1 bg-green-500 rounded py-2" onClick={onRestartClick}>
-          Next Word
-        </button>
-      </div>
+      <button
+        class="btn btn-success text-white w-full"
+        onClick={onRestartClick}
+      >
+        Next Word
+      </button>
     </div>
   );
 }
