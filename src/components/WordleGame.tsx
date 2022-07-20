@@ -15,7 +15,7 @@ export function WordleGame() {
     removeLastLetterFromGuess,
     submitGuess,
     restart,
-  } = createWordleState({ solution: "REACT" });
+  } = createWordleState();
 
   // Key presses change the game state:
   function callGameFunction(event: KeyboardEvent) {
