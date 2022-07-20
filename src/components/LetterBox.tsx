@@ -1,14 +1,13 @@
-import { createMemo, createSignal } from "solid-js";
 import { clsx } from "clsx";
+import { createEffect, createMemo, createSignal } from "solid-js";
 
 export interface LetterBoxData {
-  letterIsInRightSpot?: boolean;
-  letterIsInRemainingLetters?: boolean;
-  letter?: string;
+  letterIsInRightSpot: () => boolean | undefined;
+  letterIsInRemainingLetters: () => boolean | undefined;
+  letter: () => string | undefined;
 }
 
-export interface LetterBoxProps {
-  letterBoxData: () => LetterBoxData;
+export interface LetterBoxProps extends LetterBoxData {
   isSubmitted: () => boolean;
   revealDelaySeconds: () => number | undefined;
   onRevealed?: () => void;
@@ -17,7 +16,9 @@ export interface LetterBoxProps {
 }
 
 export function LetterBox({
-  letterBoxData,
+  letter,
+  letterIsInRightSpot,
+  letterIsInRemainingLetters,
   isSubmitted,
   revealDelaySeconds,
   onRevealed,
@@ -28,30 +29,41 @@ export function LetterBox({
 
   const bgColor = createMemo(() =>
     revealed()
-      ? letterBoxData().letterIsInRightSpot
+      ? letterIsInRightSpot()
         ? "green-500"
-        : letterBoxData().letterIsInRemainingLetters
-        ? "gray-500"
+        : letterIsInRemainingLetters()
+        ? "yellow-500"
         : "gray-500"
       : undefined
   );
 
+  createEffect(() => {
+    if (isSubmitted() && !revealed()) {
+      const timeout = setTimeout(() => {
+        setRevealed(true);
+        onRevealed?.();
+      }, (revealDelaySeconds() ?? 0) * 1000);
+      return () => clearTimeout(timeout);
+    }
+  });
+
   return (
-    <div
-      class={clsx(
-        "aspect-square flex-grow font-bold select-none",
-        !revealed() && "border-2",
-        `bg-${bgColor()}`,
-        "border-gray-400",
-        letterBoxData().letter && "border-black",
-        revealed() ? "text-white" : "text-black"
-      )}
-      style={{ "font-size": "2rem" }}
-      data-testid="letter-box"
-      data-background-color={bgColor}
-      data-revealed={revealed}
-    >
-      {letterBoxData().letter}
+    <div class="relative aspect-square flex-1">
+      <div
+        class={clsx(
+          "absolute w-full h-full flex items-center justify-center font-bold select-none text-[2rem]",
+          !revealed() && "border-2",
+          `bg-${bgColor()}`,
+          letter() ? "border-black" : "border-gray-400",
+          revealed() ? "text-white" : "text-black",
+          revealed() && "flip-out"
+        )}
+        data-testid="letter-box"
+        data-background-color={bgColor()}
+        data-revealed={revealed()}
+      >
+        {letter()}
+      </div>
     </div>
   );
 }

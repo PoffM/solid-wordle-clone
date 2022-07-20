@@ -21,39 +21,42 @@ export function LetterGridRow({
   initiallyRevealed,
 }: LetterGridRowProps) {
   const remainingLetters = createMemo(() =>
-    range(0, solution.length)
+    range(0, solution().length)
       .filter((idx) => rowGuess()?.[idx] !== solution()[idx])
       .map((idx) => solution()[idx])
   );
 
-  const columnData = createMemo(() =>
-    range(0, solution().length).map((colNum) => {
-      const letter = rowGuess()?.charAt(colNum);
-      const letterIsInRemainingLetters = Boolean(
-        letter && remainingLetters().includes(letter)
-      );
-      const letterIsInRightSpot = Boolean(
-        letter && solution().charAt(colNum) === letter
-      );
-
-      return { letter, letterIsInRightSpot, letterIsInRemainingLetters };
-    })
-  );
+  const solutionLen = createMemo(() => solution().length);
 
   return (
     <div class="flex gap-1 flex-grow w-full" data-testid="letter-grid-row">
-      <For each={columnData()}>
-        {(letterBoxData, letterPosition) => {
-          const isLast = letterPosition() === columnData().length - 1;
+      <For each={range(0, solutionLen())}>
+        {(colNum) => {
+          const isLast = () => colNum === solutionLen() - 1;
+          const letter = createMemo(() => rowGuess()?.charAt(colNum));
+
+          const letterIsInRemainingLetters = createMemo(() =>
+            Boolean(letter() && remainingLetters().includes(letter()!))
+          );
+
+          const letterIsInRightSpot = createMemo(() =>
+            Boolean(letter() && solution().charAt(colNum) === letter())
+          );
+
+          function onBoxRevealed() {
+            if (isLast()) {
+              onRowRevealed?.();
+            }
+          }
 
           return (
             <LetterBox
-              letterBoxData={() => letterBoxData}
+              letter={letter}
+              letterIsInRemainingLetters={letterIsInRemainingLetters}
+              letterIsInRightSpot={letterIsInRightSpot}
               isSubmitted={isSubmitted}
-              revealDelaySeconds={() =>
-                letterPosition() * (1 / columnData().length)
-              }
-              onRevealed={isLast ? onRowRevealed : undefined}
+              revealDelaySeconds={() => colNum * (1 / solutionLen())}
+              onRevealed={onBoxRevealed}
               initiallyRevealed={initiallyRevealed}
             />
           );
