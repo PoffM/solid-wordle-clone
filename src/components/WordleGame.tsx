@@ -41,6 +41,14 @@ export function WordleGame(params: WordleStateParams) {
   document.addEventListener("keydown", callGameFunction);
   onCleanup(() => document.removeEventListener("keydown", callGameFunction));
 
+  // Defocus the button after clicking it,
+  function blurElement() {
+    // eslint-disable-next-line
+    (document.activeElement as any)?.blur?.();
+  }
+  document.addEventListener("click", blurElement);
+  onCleanup(() => document.removeEventListener("click", blurElement));
+
   // Only reveal the new colors on the keyboard UI after the letter box colors have been revealed:
   const revealedGuesses = createMemo(() =>
     wordleState().status === "REVEALING"

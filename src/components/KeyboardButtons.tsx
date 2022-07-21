@@ -50,7 +50,8 @@ export function KeyboardButtons({
       )
   );
 
-  const defaultButtonColors = "bg-gray-300 dark:bg-gray-500 text-black dark:text-white"
+  const defaultButtonColors =
+    "bg-gray-300 dark:bg-gray-500 text-black dark:text-white";
 
   function letterButtonProps(
     letter: string,
@@ -95,7 +96,7 @@ export function KeyboardButtons({
           ENTER
         </KeyButton>
         {[..."ZXCVBNM"].map((letter) => (
-          <KeyButton  {...letterButtonProps(letter, "flex-1")} />
+          <KeyButton {...letterButtonProps(letter, "flex-1")} />
         ))}
         <KeyButton
           class={clsx(defaultButtonColors, "flex-[1.65]")}
@@ -114,11 +115,6 @@ function KeyButton(props: ComponentProps<"button">) {
     <button
       type="button"
       {...props}
-      onClick={(e) => {
-        // @ts-ignore ("This expression is not callable")
-        props.onClick?.(e);
-        (e.target as any)?.blur();
-      }}
       class={clsx("h-full rounded", props.class)}
     />
   );
