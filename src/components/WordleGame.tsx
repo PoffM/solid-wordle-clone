@@ -4,6 +4,7 @@ import { createWordleState } from "../logic/createWordleState";
 import { KeyboardButtons } from "./KeyboardButtons";
 import { LetterGrid } from "./letter-grid/LetterGrid";
 import { PostGameButtons } from "./PostGameButtons";
+import { ToastList } from "./ToastList";
 
 const ALPHABET = range(0, 26).map((i) => String.fromCharCode(i + 65));
 
@@ -48,7 +49,7 @@ export function WordleGame() {
 
   return (
     <div class="flex flex-col h-full w-full max-w-[31rem]">
-      {/* <WordleHeader /> */}
+      <ToastList latestToast={() => wordleState().currentGuessError} />
       <div class="flex flex-grow justify-center items-center">
         <LetterGrid wordleState={wordleState} onRowRevealed={continueGame} />
       </div>

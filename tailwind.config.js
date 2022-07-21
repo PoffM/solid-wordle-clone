@@ -70,12 +70,17 @@ module.exports = {
           "90%": { transform: "translateX(-1px)" },
           "100%": { transform: "translateX(0px)" },
         },
+        fadeOut: {
+          "0%": { opacity: 1, transform: "scale(1)" },
+          "100%": { opacity: 0, transform: "scale(0.9)" },
+        }
       },
       animation: {
         flipOut: "flipOut 0.2s linear forwards",
         flipIn: "flipIn 0.2s linear forwards",
         popIn: "popIn 0.1s linear",
-        shake: "shake 0.6s linear",
+        shake: "shake 0.25s linear",
+        fadeOut: "fadeOut 0.15s ease-out forwards"
       },
     },
   },
