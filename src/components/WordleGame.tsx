@@ -1,6 +1,9 @@
 import { get, range } from "lodash";
 import { createMemo, onCleanup } from "solid-js";
-import { createWordleState } from "../logic/createWordleState";
+import {
+  createWordleState,
+  WordleStateParams,
+} from "../logic/createWordleState";
 import { KeyboardButtons } from "./KeyboardButtons";
 import { LetterGrid } from "./letter-grid/LetterGrid";
 import { PostGameButtons } from "./PostGameButtons";
@@ -8,7 +11,7 @@ import { ToastList } from "./ToastList";
 
 const ALPHABET = range(0, 26).map((i) => String.fromCharCode(i + 65));
 
-export function WordleGame() {
+export function WordleGame(params: WordleStateParams) {
   const {
     wordleState,
     continueGame,
@@ -16,7 +19,7 @@ export function WordleGame() {
     removeLastLetterFromGuess,
     submitGuess,
     restart,
-  } = createWordleState();
+  } = createWordleState(params);
 
   // Key presses change the game state:
   function callGameFunction(event: KeyboardEvent) {

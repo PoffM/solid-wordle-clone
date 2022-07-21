@@ -37,13 +37,23 @@ export function LetterBox({
       : undefined
   );
 
+  function doReveal() {
+    setRevealed(true);
+    onRevealed?.();
+  }
+
   createEffect(() => {
     if (isSubmitted() && !revealed()) {
-      const timeout = setTimeout(() => {
-        setRevealed(true);
-        onRevealed?.();
-      }, (revealDelaySeconds() ?? 0) * 1000);
-      return () => clearTimeout(timeout);
+      // Don't do a delay during tests:
+      if (process?.env?.JEST_WORKER_ID) {
+        doReveal();
+      } else {
+        const timeout = setTimeout(
+          doReveal,
+          (revealDelaySeconds() ?? 0) * 1000
+        );
+        return () => clearTimeout(timeout);
+      }
     }
   });
 

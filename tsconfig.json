@@ -1,4 +1,5 @@
 {
+  "types": ["jest", "@testing-library/jest-dom"],
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
@@ -11,6 +12,7 @@
     "types": ["vite/client"],
     "noEmit": true,
     "isolatedModules": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true
   }
 }
