@@ -17,7 +17,7 @@ The solution word is randomly picked from a json array each time you play.
 
 * [TypeScript](https://www.typescriptlang.org/) (Language)
 * [SolidJS](https://www.solidjs.com/) (UI framework)
-* [Vite](https://nextjs.org/) (Frontend web application build tool)
+* [Vite](https://vitejs.dev/) (Frontend web application build tool)
 * [Tailwind](https://tailwindcss.com/) (CSS utility framework)
 * [DaisyUI](https://daisyui.com/) (Tailwind-based UI component library)
 * [Solid Testing Library](https://github.com/solidjs/solid-testing-library) (SolidJS Testing Library)
