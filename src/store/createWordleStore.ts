@@ -1,5 +1,5 @@
 import { uniqueId } from "lodash";
-import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import COMMON_WORDS from "../word-list/common-words.json";
 import UNCOMMON_WORDS from "../word-list/uncommon-words.json";
 
@@ -17,12 +17,12 @@ export interface WordleState {
 
 const VALID_WORDS = [...COMMON_WORDS, ...UNCOMMON_WORDS];
 
-export interface WordleStateParams {
+export interface WordleStoreParams {
   solution?: string;
 }
 
-export function createWordleState(params: WordleStateParams = {}) {
-  const [wordleState, setWordleState] = createSignal(
+export function createWordleStore(params: WordleStoreParams = {}) {
+  const [wordleState, setWordleState] = createStore(
     makeInitialState(params.solution)
   );
 
@@ -30,35 +30,33 @@ export function createWordleState(params: WordleStateParams = {}) {
     wordleState,
 
     addLetterToGuess: (charCode: number) => {
-      if (wordleState().status !== "GUESSING") return;
+      if (wordleState.status !== "GUESSING") return;
 
-      const { currentGuess, wordLength } = wordleState();
+      const { currentGuess, wordLength } = wordleState;
 
       const newGuess = (currentGuess + String.fromCharCode(charCode)).slice(
         0,
         wordLength
       );
       setWordleState({
-        ...wordleState(),
         currentGuessError: null,
         currentGuess: newGuess,
       });
     },
 
     removeLastLetterFromGuess: () => {
-      if (wordleState().status !== "GUESSING") return;
+      if (wordleState.status !== "GUESSING") return;
 
       setWordleState({
-        ...wordleState(),
         currentGuessError: null,
-        currentGuess: wordleState().currentGuess.slice(0, -1),
+        currentGuess: wordleState.currentGuess.slice(0, -1),
       });
     },
 
     submitGuess: () => {
-      if (wordleState().status !== "GUESSING") return;
+      if (wordleState.status !== "GUESSING") return;
 
-      const { currentGuess, solution, submittedGuesses } = wordleState();
+      const { currentGuess, solution, submittedGuesses } = wordleState;
 
       const currentGuessError =
         currentGuess.length < solution.length
@@ -68,7 +66,7 @@ export function createWordleState(params: WordleStateParams = {}) {
           : null;
 
       if (currentGuessError) {
-        setWordleState({ ...wordleState(), currentGuessError });
+        setWordleState({ currentGuessError });
         return;
       }
 
@@ -77,7 +75,6 @@ export function createWordleState(params: WordleStateParams = {}) {
       const newStatus = "REVEALING";
 
       setWordleState({
-        ...wordleState(),
         submittedGuesses: newSubmittedGuesses,
         currentGuess: "",
         status: newStatus,
@@ -85,9 +82,9 @@ export function createWordleState(params: WordleStateParams = {}) {
     },
 
     continueGame: () => {
-      if (wordleState().status !== "REVEALING") return;
+      if (wordleState.status !== "REVEALING") return;
 
-      const { submittedGuesses, solution, maxGuesses } = wordleState();
+      const { submittedGuesses, solution, maxGuesses } = wordleState;
 
       const lastGuess = submittedGuesses.at(-1);
 
@@ -98,7 +95,7 @@ export function createWordleState(params: WordleStateParams = {}) {
           ? "LOST"
           : "GUESSING";
 
-      setWordleState({ ...wordleState(), status: newStatus });
+      setWordleState({ status: newStatus });
     },
 
     restart: () => void setWordleState(makeInitialState()),

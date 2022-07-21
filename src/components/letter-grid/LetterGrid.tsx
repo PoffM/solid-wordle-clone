@@ -1,6 +1,6 @@
 import { range } from "lodash";
 import { createMemo, For } from "solid-js";
-import { WordleState } from "../../state/createWordleState";
+import { WordleState } from "../../store/createWordleStore";
 import { LetterGridRow } from "./LetterGridRow";
 
 export interface LetterGridProps {
@@ -35,14 +35,12 @@ export function LetterGrid({ wordleState, onRowRevealed }: LetterGridProps) {
                 isCurrentGuess() ? wordleState().currentGuessError : null
               );
 
-              const solution = createMemo(() => wordleState().solution);
-
               return (
                 <LetterGridRow
                   isSubmitted={isSubmitted}
                   rowError={rowError}
                   rowGuess={rowGuess}
-                  solution={solution}
+                  solution={() => wordleState().solution}
                   onRowRevealed={onRowRevealed}
                 />
               );

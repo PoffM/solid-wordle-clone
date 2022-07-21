@@ -1,5 +1,4 @@
-import { createMemo } from "solid-js";
-import { WordleState } from "../state/createWordleState";
+import { WordleState } from "../store/createWordleStore";
 
 export interface PostGameButtonsProps {
   wordleState: () => WordleState;
@@ -10,18 +9,15 @@ export function PostGameButtons({
   wordleState,
   onRestartClick,
 }: PostGameButtonsProps) {
-  const status = createMemo(() => wordleState().status);
-  const solution = createMemo(() => wordleState().solution);
-
   return (
     <div class="flex flex-col gap-2">
-      {status() === "LOST" && (
+      {wordleState().status === "LOST" && (
         <div class="text-center">
           <h2>SOLUTION</h2>
-          <p class="text-3xl">{solution}</p>
+          <p class="text-3xl">{wordleState().solution}</p>
         </div>
       )}
-      {status() === "WON" && (
+      {wordleState().status === "WON" && (
         <div class="text-center">
           <p class="text-3xl">WINNER!</p>
         </div>
