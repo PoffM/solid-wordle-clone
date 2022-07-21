@@ -1,6 +1,6 @@
 import { range } from "lodash";
 import { createMemo, For } from "solid-js";
-import { WordleState } from "../../logic/createWordleState";
+import { WordleState } from "../../state/createWordleState";
 import { LetterGridRow } from "./LetterGridRow";
 
 export interface LetterGridProps {

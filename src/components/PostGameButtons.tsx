@@ -1,5 +1,5 @@
 import { createMemo } from "solid-js";
-import { WordleState } from "../logic/createWordleState";
+import { WordleState } from "../state/createWordleState";
 
 export interface PostGameButtonsProps {
   wordleState: () => WordleState;

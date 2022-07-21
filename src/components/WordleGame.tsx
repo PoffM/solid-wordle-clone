@@ -3,7 +3,7 @@ import { createMemo, onCleanup } from "solid-js";
 import {
   createWordleState,
   WordleStateParams,
-} from "../logic/createWordleState";
+} from "../state/createWordleState";
 import { KeyboardButtons } from "./KeyboardButtons";
 import { LetterGrid } from "./letter-grid/LetterGrid";
 import { PostGameButtons } from "./PostGameButtons";
