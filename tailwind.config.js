@@ -104,12 +104,15 @@ module.exports = {
         dark: {
           ...darkTheme,
 
-          // Background colors taken from DaisyUI "black" theme:
+          // Colors taken from DaisyUI's "black" theme:
+          // Background colors:
           "base-100": "#000000",
           "base-200": "#0D0D0D",
           "base-300": "#1A1919",
-          // neutral: "#272626",
-          // "neutral-focus": "#343232",
+          // Plain button bg color:
+          neutral: "#272626",
+          // Plain button hover bg color:
+          "neutral-focus": "#343232",
 
           // Green 'success' button bg color:
           success: green[500],
