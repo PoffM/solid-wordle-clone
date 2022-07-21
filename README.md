@@ -1,34 +1,23 @@
-## Usage
+# SolidJS Wordle Clone
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+Clone of [Wordle](https://www.nytimes.com/games/wordle/index.html) remade using a SolidJS-based technology stack.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+[Deployed application](https://react-wordle-clone-poffm.vercel.app/)
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+The solution word is randomly picked from a json array each time you play.
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## Features
 
-## Available Scripts
+* Front-end code only, no REST APIs.
+* Light/Dark mode toggle.
+* Animated transitions.
+* Instructions modal.
 
-In the project directory, you can run:
+## Stack
 
-### `npm dev` or `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+* [TypeScript](https://www.typescriptlang.org/) (Language)
+* [SolidJS](https://www.solidjs.com/) (UI framework)
+* [Vite](https://nextjs.org/) (Frontend web application build tool)
+* [Tailwind](https://tailwindcss.com/) (CSS utility framework)
+* [DaisyUI](https://daisyui.com/) (Tailwind-based UI component library)
+* [Solid Testing Library](https://github.com/solidjs/solid-testing-library) (SolidJS Testing Library)
