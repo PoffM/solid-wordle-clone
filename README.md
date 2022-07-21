@@ -2,7 +2,7 @@
 
 Clone of [Wordle](https://www.nytimes.com/games/wordle/index.html) remade using a SolidJS-based technology stack.
 
-[Deployed application](https://react-wordle-clone-poffm.vercel.app/)
+[Deployed application](https://solid-wordle-clone-poffm.vercel.app/)
 
 The solution word is randomly picked from a json array each time you play.
 
