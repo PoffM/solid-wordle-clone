@@ -17,11 +17,10 @@ export function WordleHeader({
 
   const [infoIsOpen, setInfoOpen] = createSignal(false);
 
-  const buttonClass =
-    "btn btn-sm w-[40px] h-[40px]";
+  const buttonClass = "btn btn-sm w-[40px] h-[40px]";
 
   return (
-    <div class="flex items-center h-[3rem] border-b-2 border-gray-400 px-3 py-2">
+    <div class="flex items-center h-[3rem] border-b-2 dark:border-gray-700 px-3 py-2">
       <div class="flex items-center">
         <button
           class={buttonClass}

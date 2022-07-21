@@ -1,9 +1,10 @@
 const colors = require("tailwindcss/colors");
 const {
-  "[data-theme=light]": light,
-  "[data-theme=dark]": dark,
+  "[data-theme=light]": lightTheme,
+  "[data-theme=dark]": darkTheme,
 } = require("daisyui/src/colors/themes");
 
+// Custom green for correct guesses:
 const green = {
   50: "#e8f9e8",
   100: "#cce5cb",
@@ -17,6 +18,7 @@ const green = {
   900: "#021200",
 };
 
+// Custom yellow for misplaced letter guesses:
 const yellow = {
   50: "#fcf6e1",
   100: "#ede5c0",
@@ -39,6 +41,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Use a neutral gray instead of the default blue-tinted gray:
         gray,
         yellow,
         green,
@@ -73,14 +76,14 @@ module.exports = {
         fadeOut: {
           "0%": { opacity: 1, transform: "scale(1)" },
           "100%": { opacity: 0, transform: "scale(0.9)" },
-        }
+        },
       },
       animation: {
         flipOut: "flipOut 0.2s linear forwards",
         flipIn: "flipIn 0.2s linear forwards",
         popIn: "popIn 0.1s linear",
-        shake: "shake 0.25s linear",
-        fadeOut: "fadeOut 0.15s ease-out forwards"
+        shake: "shake 0.6s linear",
+        fadeOut: "fadeOut 0.15s ease-out forwards",
       },
     },
   },
@@ -90,27 +93,30 @@ module.exports = {
       // The green 'success' color should match the green letter boxes:
       {
         light: {
-          ...light,
+          ...lightTheme,
           // Green 'success' button bg color:
           success: green[500],
           // Default 'btn' button bg color:
           neutral: gray[300],
+          // Button text color:
           "neutral-content": colors.black,
         },
         dark: {
-          ...dark,
+          ...darkTheme,
+
+          // Background colors taken from DaisyUI "black" theme:
+          "base-100": "#000000",
+          "base-200": "#0D0D0D",
+          "base-300": "#1A1919",
+          // neutral: "#272626",
+          // "neutral-focus": "#343232",
+
           // Green 'success' button bg color:
           success: green[500],
-          // Default 'btn' button bg color:
-          neutral: gray[800],
-          // Button hover bg color:
-          "neutral-focus": gray[700],
           // Button text color:
-          "neutral-content": colors.white,
+          "neutral-content": gray[200],
           // Text color:
-          "base-content": gray[100],
-          // Background color:
-          "base-100": gray[900],
+          "base-content": gray[200],
         },
       },
     ],
