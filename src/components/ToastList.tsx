@@ -21,7 +21,7 @@ export function ToastList({ latestToast }: ToastListProps) {
 
   return (
     <div class="relative">
-      <div class="toast absolute toast-top toast-center">
+      <div class="toast absolute toast-top toast-center z-10">
         <For each={toastList()}>
           {(toast) => {
             // After showing the toast, wait, then fade out, then remove the toast: 
