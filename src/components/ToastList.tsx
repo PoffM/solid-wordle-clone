@@ -23,7 +23,7 @@ export function ToastList({ latestToast }: ToastListProps) {
 
   return (
     <div class="relative">
-      <div class="toast absolute toast-top toast-center z-10 w-[250px]">
+      <div class="toast absolute toast-top toast-center z-10 w-[280px]">
         <For each={toastList()}>
           {(toast) => {
             // After showing the toast, wait, then fade out, then remove the toast:
@@ -39,11 +39,11 @@ export function ToastList({ latestToast }: ToastListProps) {
             return (
               <div
                 class={clsx(
-                  "alert alert-warning shadow-lg justify-start",
+                  "alert alert-warning shadow-lg justify-start gap-2",
                   fadeOut() && "animate-fadeOut"
                 )}
               >
-                <RiSystemErrorWarningFill />
+                <RiSystemErrorWarningFill size="25px" />
                 <span>{toast.message}</span>
               </div>
             );
