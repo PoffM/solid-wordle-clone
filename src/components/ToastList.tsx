@@ -1,5 +1,7 @@
 import clsx from "clsx";
-import { createEffect, createSignal, For, onCleanup } from "solid-js";
+import { createEffect, createSignal, For } from "solid-js";
+import { RiSystemErrorWarningFill } from 'solid-icons/ri'
+
 
 export interface ToastData {
   message: string;
@@ -21,10 +23,10 @@ export function ToastList({ latestToast }: ToastListProps) {
 
   return (
     <div class="relative">
-      <div class="toast absolute toast-top toast-center z-10">
+      <div class="toast absolute toast-top toast-center z-10 w-[250px]">
         <For each={toastList()}>
           {(toast) => {
-            // After showing the toast, wait, then fade out, then remove the toast: 
+            // After showing the toast, wait, then fade out, then remove the toast:
             const [fadeOut, setFadeOut] = createSignal(false);
             setTimeout(() => {
               setFadeOut(true);
@@ -37,11 +39,12 @@ export function ToastList({ latestToast }: ToastListProps) {
             return (
               <div
                 class={clsx(
-                  "alert alert-warning shadow-lg",
+                  "alert alert-warning shadow-lg justify-start",
                   fadeOut() && "animate-fadeOut"
                 )}
               >
-                {toast.message}
+                <RiSystemErrorWarningFill />
+                <span>{toast.message}</span>
               </div>
             );
           }}
