@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import { createFocusTrap, FocusTrap } from "focus-trap";
+import { createEffect } from "solid-js";
 import { LetterGridRow } from "./letter-grid/LetterGridRow";
 
 export interface WordleInfoModalProps {
@@ -7,9 +9,18 @@ export interface WordleInfoModalProps {
 }
 
 export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
+  let focusTrap: FocusTrap | undefined = undefined;
+
+  createEffect(() =>
+    isOpen() ? focusTrap?.activate() : focusTrap?.deactivate()
+  );
+
   return (
     <div class={clsx("modal", isOpen() && "modal-open")}>
-      <div class="modal-box animate-fadeIn relative">
+      <div
+        class="modal-box animate-fadeIn relative"
+        ref={(node) => (focusTrap = createFocusTrap(node))}
+      >
         <button
           type="button"
           class="btn btn-sm btn-circle absolute right-2 top-2"
