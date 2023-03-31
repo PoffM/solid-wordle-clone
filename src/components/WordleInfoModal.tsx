@@ -1,10 +1,7 @@
 import clsx from "clsx";
 import { createFocusTrap, FocusTrap } from "focus-trap";
 import { createEffect } from "solid-js";
-import {
-  createWordleStore,
-  makeInitialState,
-} from "../store/createWordleStore";
+import { createWordleStore } from "../store/createWordleStore";
 import { WordleContext } from "../store/wordle-context";
 import { LetterGridRow } from "./letter-grid/LetterGridRow";
 

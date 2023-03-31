@@ -1,7 +1,6 @@
 import clsx from "clsx";
+import { RiSystemErrorWarningFill } from "solid-icons/ri";
 import { createEffect, createSignal, For } from "solid-js";
-import { RiSystemErrorWarningFill } from 'solid-icons/ri'
-
 
 export interface ToastData {
   message: string;

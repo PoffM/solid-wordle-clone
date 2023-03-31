@@ -52,17 +52,15 @@ export function LetterGridRow(props: LetterGridRowProps) {
       ref={rowDiv}
     >
       <For each={range(0, solutionLen())}>
-        {(colNum) => {
-          return (
-            <LetterBox
-              rowNum={props.rowNum}
-              colNum={colNum}
-              remainingLetters={remainingLetters}
-              rowGuess={rowGuess}
-              initiallyRevealed={props.initiallyRevealed}
-            />
-          );
-        }}
+        {(colNum) => (
+          <LetterBox
+            rowNum={props.rowNum}
+            colNum={colNum}
+            remainingLetters={remainingLetters}
+            rowGuess={rowGuess}
+            initiallyRevealed={props.initiallyRevealed}
+          />
+        )}
       </For>
     </div>
   );
