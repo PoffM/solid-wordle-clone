@@ -1,31 +1,43 @@
 import { clsx } from "clsx";
 import { createEffect, createMemo, createSignal } from "solid-js";
+import { useWordleStore } from "../../store/wordle-context";
 
-export interface LetterBoxData {
-  letterIsInRightSpot: () => boolean | undefined;
-  letterIsInRemainingLetters: () => boolean | undefined;
-  letter: () => string | undefined;
-}
+export interface LetterBoxProps {
+  rowNum: number;
+  colNum: number;
 
-export interface LetterBoxProps extends LetterBoxData {
-  isSubmitted: () => boolean;
-  revealDelaySeconds: () => number | undefined;
-  onRevealed?: () => void;
-  /** Renders the letter box with the solution color already revealed. */
+  /**
+   * Renders the letter box with the solution color already revealed.
+   * Used in the tutorial modal.
+   */
   initiallyRevealed?: boolean;
+
+  // memoized at row level
+  rowGuess: string | undefined;
+  remainingLetters: (string | undefined)[];
 }
 
-export function LetterBox({
-  letter,
-  letterIsInRightSpot,
-  letterIsInRemainingLetters,
-  isSubmitted,
-  revealDelaySeconds,
-  onRevealed,
-  initiallyRevealed = false,
-}: LetterBoxProps) {
+export function LetterBox(props: LetterBoxProps) {
+  const store = useWordleStore();
+
+  function isSubmitted() {
+    return props.rowNum in store.wordleState.submittedGuesses;
+  }
+
+  const letter = createMemo(() => props.rowGuess?.charAt(props.colNum));
+
+  const letterIsInRemainingLetters = createMemo(() =>
+    Boolean(letter() && props.remainingLetters.includes(letter()!))
+  );
+
+  const letterIsInRightSpot = createMemo(() =>
+    Boolean(
+      letter() && store.wordleState.solution.charAt(props.colNum) === letter()
+    )
+  );
+
   // Flip animation to reveal the answer:
-  const [revealed, setRevealed] = createSignal(initiallyRevealed);
+  const [revealed, setRevealed] = createSignal(props.initiallyRevealed);
 
   const bgColor = createMemo(() =>
     revealed()
@@ -39,19 +51,23 @@ export function LetterBox({
 
   function doReveal() {
     setRevealed(true);
-    onRevealed?.();
+
+    const isLast = props.colNum === store.wordleState.solution.length - 1;
+    if (isLast) {
+      store.continueGame?.();
+    }
   }
 
   createEffect(() => {
+    const revealDelaySeconds =
+      props.colNum * (1 / store.wordleState.solution.length);
+
     if (isSubmitted() && !revealed()) {
       // Don't do a delay during tests:
       if (globalThis?.process?.env?.JEST_WORKER_ID) {
         doReveal();
       } else {
-        const timeout = setTimeout(
-          doReveal,
-          (revealDelaySeconds() ?? 0) * 1000
-        );
+        const timeout = setTimeout(doReveal, (revealDelaySeconds ?? 0) * 1000);
         return () => clearTimeout(timeout);
       }
     }
@@ -72,7 +88,8 @@ export function LetterBox({
         <div
           class={clsx(
             letterBoxClass,
-            !initiallyRevealed && "[transform:rotateX(-180deg)] animate-flipIn",
+            !props.initiallyRevealed &&
+              "[transform:rotateX(-180deg)] animate-flipIn",
             "text-white",
             bgColor()
           )}
@@ -81,7 +98,7 @@ export function LetterBox({
         </div>
       )}
       {/* Front of card (black and white) */}
-      {!initiallyRevealed && (
+      {!props.initiallyRevealed && (
         <div
           class={clsx(
             letterBoxClass,

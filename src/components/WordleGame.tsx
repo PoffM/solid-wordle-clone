@@ -1,9 +1,10 @@
 import { get, range } from "lodash";
-import { createMemo, onCleanup } from "solid-js";
+import { onCleanup } from "solid-js";
 import {
   createWordleStore,
   WordleStoreParams,
 } from "../store/createWordleStore";
+import { WordleContext } from "../store/wordle-context";
 import { KeyboardButtons } from "./KeyboardButtons";
 import { LetterGrid } from "./letter-grid/LetterGrid";
 import { PostGameButtons } from "./PostGameButtons";
@@ -12,22 +13,15 @@ import { ToastList } from "./ToastList";
 const ALPHABET = range(0, 26).map((i) => String.fromCharCode(i + 65));
 
 export function WordleGame(params: WordleStoreParams) {
-  const {
-    wordleState,
-    continueGame,
-    addLetterToGuess,
-    removeLastLetterFromGuess,
-    submitGuess,
-    restart,
-  } = createWordleStore(params);
+  const store = createWordleStore(params);
 
   // Key presses change the game state:
   function callGameFunction(event: KeyboardEvent) {
     if (ALPHABET.includes(event.key.toUpperCase())) {
-      addLetterToGuess?.(event.key.toUpperCase().charCodeAt(0));
+      store.addLetterToGuess?.(event.key.toUpperCase().charCodeAt(0));
     }
     if (event.key === "Backspace") {
-      removeLastLetterFromGuess?.();
+      store.removeLastLetterFromGuess?.();
     }
     if (
       event.key === "Enter" &&
@@ -35,7 +29,7 @@ export function WordleGame(params: WordleStoreParams) {
       // e.g. navigating the page keyboard-only:
       get(event.target, "type") !== "button"
     ) {
-      submitGuess?.();
+      store.submitGuess?.();
     }
   }
   document.addEventListener("keydown", callGameFunction);
@@ -49,41 +43,22 @@ export function WordleGame(params: WordleStoreParams) {
   document.addEventListener("click", blurElement);
   onCleanup(() => document.removeEventListener("click", blurElement));
 
-  // Only reveal the new colors on the keyboard UI after the letter box colors have been revealed:
-  const revealedGuesses = createMemo(() =>
-    wordleState.status === "REVEALING"
-      ? wordleState.submittedGuesses.slice(0, -1)
-      : wordleState.submittedGuesses
-  );
-
-  const status = () => wordleState.status;
+  const status = () => store.wordleState.status;
 
   return (
-    <div class="flex flex-col h-full w-full max-w-[31rem]">
-      <ToastList latestToast={() => wordleState.currentGuessError} />
-      <div class="flex flex-grow justify-center items-center">
-        <LetterGrid
-          wordleState={() => wordleState}
-          onRowRevealed={continueGame}
-        />
+    <WordleContext.Provider value={store}>
+      <div class="flex flex-col h-full w-full max-w-[31rem]">
+        <ToastList latestToast={store.wordleState.currentGuessError} />
+        <div class="flex flex-grow justify-center items-center">
+          <LetterGrid />
+        </div>
+        <div class="h-[12rem] p-1.5">
+          {(status() === "WON" || status() === "LOST") && <PostGameButtons />}
+          {(status() === "GUESSING" || status() === "REVEALING") && (
+            <KeyboardButtons />
+          )}
+        </div>
       </div>
-      <div class="h-[12rem] p-1.5">
-        {(status() === "WON" || status() === "LOST") && (
-          <PostGameButtons
-            onRestartClick={restart}
-            wordleState={() => wordleState}
-          />
-        )}
-        {(status() === "GUESSING" || status() === "REVEALING") && (
-          <KeyboardButtons
-            submittedGuesses={revealedGuesses}
-            solution={() => wordleState.solution}
-            onLetterClick={addLetterToGuess}
-            onBackspaceClick={removeLastLetterFromGuess}
-            onEnterClick={submitGuess}
-          />
-        )}
-      </div>
-    </div>
+    </WordleContext.Provider>
   );
 }

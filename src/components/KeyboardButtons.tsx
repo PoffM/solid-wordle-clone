@@ -1,25 +1,21 @@
 import clsx from "clsx";
 import { flatMap } from "lodash";
 import { ComponentProps, createMemo } from "solid-js";
+import { useWordleStore } from "../store/wordle-context";
 
-export interface KeyboardButtonsProps {
-  onLetterClick?: (charCode: number) => void;
-  onEnterClick?: () => void;
-  onBackspaceClick?: () => void;
-  submittedGuesses: () => string[];
-  solution: () => string;
-}
+export function KeyboardButtons() {
+  const store = useWordleStore();
 
-export function KeyboardButtons({
-  onLetterClick,
-  onEnterClick,
-  onBackspaceClick,
-  submittedGuesses,
-  solution,
-}: KeyboardButtonsProps) {
+  // Only reveal the new colors on the keyboard UI after the letter box colors have been revealed:
+  const revealedGuesses = createMemo(() =>
+    store.wordleState.status === "REVEALING"
+      ? store.wordleState.submittedGuesses.slice(0, -1)
+      : store.wordleState.submittedGuesses
+  );
+
   const submittedLetters = createMemo(() =>
     flatMap(
-      submittedGuesses()
+      revealedGuesses()
         .map((guess) => guess.split(""))
         .map((letters) => letters.map((letter, index) => ({ letter, index })))
     )
@@ -33,7 +29,9 @@ export function KeyboardButtons({
     () =>
       new Set(
         submittedLetters()
-          .filter(({ letter, index }) => solution()[index] === letter)
+          .filter(
+            ({ letter, index }) => store.wordleState.solution[index] === letter
+          )
           .map((it) => it.letter)
       )
   );
@@ -44,7 +42,8 @@ export function KeyboardButtons({
         submittedLetters()
           .filter(
             ({ letter }) =>
-              solution().includes(letter) && !correctLetters().has(letter)
+              store.wordleState.solution.includes(letter) &&
+              !correctLetters().has(letter)
           )
           .map((it) => it.letter)
       )
@@ -66,7 +65,7 @@ export function KeyboardButtons({
       : defaultButtonColors;
 
     return {
-      onClick: () => onLetterClick?.(letter.charCodeAt(0)),
+      onClick: () => store.addLetterToGuess?.(letter.charCodeAt(0)),
       class: clsx(className, classes),
       children: letter,
     };
@@ -91,7 +90,7 @@ export function KeyboardButtons({
       <div class={rowClasses}>
         <KeyButton
           class={clsx(defaultButtonColors, "flex-[1.65]")}
-          onClick={onEnterClick}
+          onClick={store.submitGuess}
         >
           ENTER
         </KeyButton>
@@ -100,7 +99,7 @@ export function KeyboardButtons({
         ))}
         <KeyButton
           class={clsx(defaultButtonColors, "flex-[1.65]")}
-          onClick={onBackspaceClick}
+          onClick={store.removeLastLetterFromGuess}
         >
           BACK
         </KeyButton>

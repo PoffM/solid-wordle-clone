@@ -3,17 +3,14 @@ import { createSignal } from "solid-js";
 import { WordleInfoModal } from "./WordleInfoModal";
 
 export interface WordleHeaderProps {
-  colorMode: () => string;
+  colorMode: string;
   onToggleColorMode: () => void;
 }
 
-export function WordleHeader({
-  colorMode,
-  onToggleColorMode,
-}: WordleHeaderProps) {
+export function WordleHeader(props: WordleHeaderProps) {
   const helpLabel = "Help";
   const colorModeLabel = () =>
-    `Switch to ${colorMode() === "dark" ? "Light" : "Dark"} mode.`;
+    `Switch to ${props.colorMode === "dark" ? "Light" : "Dark"} mode.`;
 
   const [infoIsOpen, setInfoOpen] = createSignal(false);
 
@@ -39,16 +36,19 @@ export function WordleHeader({
           class={buttonClass}
           aria-label={colorModeLabel()}
           title={colorModeLabel()}
-          onClick={onToggleColorMode}
+          onClick={props.onToggleColorMode}
         >
-          {colorMode() === "dark" ? (
+          {props.colorMode === "dark" ? (
             <BsSunFill size="20px" />
           ) : (
             <BsMoonFill size="20px" />
           )}
         </button>
       </div>
-      <WordleInfoModal isOpen={infoIsOpen} onClose={() => setInfoOpen(false)} />
+      <WordleInfoModal
+        isOpen={infoIsOpen()}
+        onClose={() => setInfoOpen(false)}
+      />
     </div>
   );
 }

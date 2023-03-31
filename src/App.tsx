@@ -25,7 +25,7 @@ const App: Component = () => {
         style={{ height: "calc(100vh - env(safe-area-inset-bottom))" }}
       >
         <WordleHeader
-          colorMode={colorMode}
+          colorMode={colorMode()}
           onToggleColorMode={() =>
             setColorMode(colorMode() === "light" ? "dark" : "light")
           }
