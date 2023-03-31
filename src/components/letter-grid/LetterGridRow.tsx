@@ -56,8 +56,8 @@ export function LetterGridRow(props: LetterGridRowProps) {
           <LetterBox
             rowNum={props.rowNum}
             colNum={colNum}
-            remainingLetters={remainingLetters}
-            rowGuess={rowGuess}
+            remainingLetters={remainingLetters()}
+            rowGuess={rowGuess()}
             initiallyRevealed={props.initiallyRevealed}
           />
         )}

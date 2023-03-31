@@ -6,19 +6,19 @@ import { WordleContext } from "../store/wordle-context";
 import { LetterGridRow } from "./letter-grid/LetterGridRow";
 
 export interface WordleInfoModalProps {
-  isOpen: () => boolean;
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
+export function WordleInfoModal(props: WordleInfoModalProps) {
   let focusTrap: FocusTrap | undefined = undefined;
 
   createEffect(() =>
-    isOpen() ? focusTrap?.activate() : focusTrap?.deactivate()
+    props.isOpen ? focusTrap?.activate() : focusTrap?.deactivate()
   );
 
   return (
-    <div class={clsx("modal", isOpen() && "modal-open")}>
+    <div class={clsx("modal", props.isOpen && "modal-open")}>
       <div
         class="modal-box animate-fadeIn relative"
         ref={(node) => (focusTrap = createFocusTrap(node))}
@@ -26,7 +26,7 @@ export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
         <button
           type="button"
           class="btn btn-sm btn-circle absolute right-2 top-2"
-          onClick={onClose}
+          onClick={props.onClose}
         >
           ✕
         </button>
@@ -92,7 +92,7 @@ export function WordleInfoModal({ isOpen, onClose }: WordleInfoModalProps) {
           </div>
         </div>
         <footer class="flex justify-end">
-          <button type="button" class="btn" onClick={onClose}>
+          <button type="button" class="btn" onClick={props.onClose}>
             Close
           </button>
         </footer>

@@ -6,42 +6,38 @@ export interface LetterBoxProps {
   rowNum: number;
   colNum: number;
 
-  // memoized at row level
-  rowGuess: () => string | undefined;
-  remainingLetters: () => (string | undefined)[];
-
   /**
    * Renders the letter box with the solution color already revealed.
    * Used in the tutorial modal.
    */
   initiallyRevealed?: boolean;
+
+  // memoized at row level
+  rowGuess: string | undefined;
+  remainingLetters: (string | undefined)[];
 }
 
-export function LetterBox({
-  rowNum,
-  colNum,
-  rowGuess,
-  remainingLetters,
-  initiallyRevealed = false,
-}: LetterBoxProps) {
+export function LetterBox(props: LetterBoxProps) {
   const store = useWordleStore();
 
   function isSubmitted() {
-    return rowNum in store.wordleState.submittedGuesses;
+    return props.rowNum in store.wordleState.submittedGuesses;
   }
 
-  const letter = createMemo(() => rowGuess()?.charAt(colNum));
+  const letter = createMemo(() => props.rowGuess?.charAt(props.colNum));
 
   const letterIsInRemainingLetters = createMemo(() =>
-    Boolean(letter() && remainingLetters().includes(letter()!))
+    Boolean(letter() && props.remainingLetters.includes(letter()!))
   );
 
   const letterIsInRightSpot = createMemo(() =>
-    Boolean(letter() && store.wordleState.solution.charAt(colNum) === letter())
+    Boolean(
+      letter() && store.wordleState.solution.charAt(props.colNum) === letter()
+    )
   );
 
   // Flip animation to reveal the answer:
-  const [revealed, setRevealed] = createSignal(initiallyRevealed);
+  const [revealed, setRevealed] = createSignal(props.initiallyRevealed);
 
   const bgColor = createMemo(() =>
     revealed()
@@ -56,14 +52,15 @@ export function LetterBox({
   function doReveal() {
     setRevealed(true);
 
-    const isLast = colNum === store.wordleState.solution.length - 1;
+    const isLast = props.colNum === store.wordleState.solution.length - 1;
     if (isLast) {
       store.continueGame?.();
     }
   }
 
   createEffect(() => {
-    const revealDelaySeconds = colNum * (1 / store.wordleState.solution.length);
+    const revealDelaySeconds =
+      props.colNum * (1 / store.wordleState.solution.length);
 
     if (isSubmitted() && !revealed()) {
       // Don't do a delay during tests:
@@ -91,7 +88,8 @@ export function LetterBox({
         <div
           class={clsx(
             letterBoxClass,
-            !initiallyRevealed && "[transform:rotateX(-180deg)] animate-flipIn",
+            !props.initiallyRevealed &&
+              "[transform:rotateX(-180deg)] animate-flipIn",
             "text-white",
             bgColor()
           )}
@@ -100,7 +98,7 @@ export function LetterBox({
         </div>
       )}
       {/* Front of card (black and white) */}
-      {!initiallyRevealed && (
+      {!props.initiallyRevealed && (
         <div
           class={clsx(
             letterBoxClass,

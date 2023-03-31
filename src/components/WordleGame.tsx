@@ -1,5 +1,5 @@
 import { get, range } from "lodash";
-import { createMemo, onCleanup } from "solid-js";
+import { onCleanup } from "solid-js";
 import {
   createWordleStore,
   WordleStoreParams,
