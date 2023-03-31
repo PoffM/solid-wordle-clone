@@ -10,7 +10,10 @@ export interface LetterBoxProps {
   rowGuess: () => string | undefined;
   remainingLetters: () => (string | undefined)[];
 
-  /** Renders the letter box with the solution color already revealed. */
+  /**
+   * Renders the letter box with the solution color already revealed.
+   * Used in the tutorial modal.
+   */
   initiallyRevealed?: boolean;
 }
 
