@@ -47,7 +47,7 @@ export function LetterGridRow(props: LetterGridRowProps) {
 
   return (
     <div
-      class={clsx("flex gap-1 flex-grow w-full")}
+      class={clsx("flex gap-1.5 flex-grow w-full")}
       data-testid="letter-grid-row"
       ref={rowDiv}
     >

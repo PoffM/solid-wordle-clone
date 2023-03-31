@@ -64,7 +64,7 @@ export function LetterBox(props: LetterBoxProps) {
 
     if (isSubmitted() && !revealed()) {
       // Don't do a delay during tests:
-      if (globalThis?.process?.env?.JEST_WORKER_ID) {
+      if (globalThis?.process?.env?.TEST) {
         doReveal();
       } else {
         const timeout = setTimeout(doReveal, (revealDelaySeconds ?? 0) * 1000);

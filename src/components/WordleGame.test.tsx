@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "solid-testing-library";
+import { render, screen, fireEvent, waitFor } from "@solidjs/testing-library";
 import { WordleGame } from "./WordleGame";
 
 describe("WordleGame component", () => {
