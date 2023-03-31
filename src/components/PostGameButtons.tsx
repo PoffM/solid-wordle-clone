@@ -1,31 +1,22 @@
-import { WordleState } from "../store/createWordleStore";
+import { useWordleStore } from "../store/wordle-context";
 
-export interface PostGameButtonsProps {
-  wordleState: () => WordleState;
-  onRestartClick: () => void;
-}
+export function PostGameButtons() {
+  const store = useWordleStore();
 
-export function PostGameButtons({
-  wordleState,
-  onRestartClick,
-}: PostGameButtonsProps) {
   return (
     <div class="flex flex-col gap-2">
-      {wordleState().status === "LOST" && (
+      {store.wordleState.status === "LOST" && (
         <div class="text-center">
           <h2>SOLUTION</h2>
-          <p class="text-3xl">{wordleState().solution}</p>
+          <p class="text-3xl">{store.wordleState.solution}</p>
         </div>
       )}
-      {wordleState().status === "WON" && (
+      {store.wordleState.status === "WON" && (
         <div class="text-center">
           <p class="text-3xl">WINNER!</p>
         </div>
       )}
-      <button
-        class="btn btn-success text-white w-full"
-        onClick={onRestartClick}
-      >
+      <button class="btn btn-success text-white w-full" onClick={store.restart}>
         Next Word
       </button>
     </div>

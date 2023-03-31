@@ -19,12 +19,14 @@ const VALID_WORDS = [...COMMON_WORDS, ...UNCOMMON_WORDS];
 
 export interface WordleStoreParams {
   solution?: string;
+  initialGuesses?: string[];
 }
 
 export function createWordleStore(params: WordleStoreParams = {}) {
-  const [wordleState, setWordleState] = createStore(
-    makeInitialState(params.solution)
-  );
+  const [wordleState, setWordleState] = createStore({
+    ...makeInitialState(params.solution),
+    ...(params.initialGuesses && { submittedGuesses: params.initialGuesses }),
+  });
 
   return {
     wordleState,
@@ -102,7 +104,7 @@ export function createWordleStore(params: WordleStoreParams = {}) {
   };
 }
 
-function makeInitialState(solutionWord?: string): WordleState {
+export function makeInitialState(solutionWord?: string): WordleState {
   const solution = (
     solutionWord ??
     COMMON_WORDS[Math.floor(Math.random() * COMMON_WORDS.length)]

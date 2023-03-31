@@ -8,14 +8,14 @@ export interface ToastData {
 }
 
 export interface ToastListProps {
-  latestToast: () => ToastData | null;
+  latestToast: ToastData | null;
 }
 
-export function ToastList({ latestToast }: ToastListProps) {
+export function ToastList(props: ToastListProps) {
   const [toastList, setToastList] = createSignal<ToastData[]>([]);
 
   createEffect(() => {
-    const newToast = latestToast();
+    const newToast = props.latestToast;
     if (newToast) {
       setToastList((current) => [newToast, ...current]);
     }

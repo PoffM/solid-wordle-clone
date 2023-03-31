@@ -1,29 +1,42 @@
 import { clsx } from "clsx";
 import { createEffect, createMemo, createSignal } from "solid-js";
+import { useWordleStore } from "../../store/wordle-context";
 
-export interface LetterBoxData {
-  letterIsInRightSpot: () => boolean | undefined;
-  letterIsInRemainingLetters: () => boolean | undefined;
-  letter: () => string | undefined;
-}
+export interface LetterBoxProps {
+  rowNum: number;
+  colNum: number;
 
-export interface LetterBoxProps extends LetterBoxData {
-  isSubmitted: () => boolean;
-  revealDelaySeconds: () => number | undefined;
-  onRevealed?: () => void;
+  // memoized at row level
+  rowGuess: () => string | undefined;
+  remainingLetters: () => (string | undefined)[];
+
   /** Renders the letter box with the solution color already revealed. */
   initiallyRevealed?: boolean;
 }
 
 export function LetterBox({
-  letter,
-  letterIsInRightSpot,
-  letterIsInRemainingLetters,
-  isSubmitted,
-  revealDelaySeconds,
-  onRevealed,
+  rowNum,
+  colNum,
+  rowGuess,
+  remainingLetters,
   initiallyRevealed = false,
 }: LetterBoxProps) {
+  const store = useWordleStore();
+
+  function isSubmitted() {
+    return rowNum in store.wordleState.submittedGuesses;
+  }
+
+  const letter = createMemo(() => rowGuess()?.charAt(colNum));
+
+  const letterIsInRemainingLetters = createMemo(() =>
+    Boolean(letter() && remainingLetters().includes(letter()!))
+  );
+
+  const letterIsInRightSpot = createMemo(() =>
+    Boolean(letter() && store.wordleState.solution.charAt(colNum) === letter())
+  );
+
   // Flip animation to reveal the answer:
   const [revealed, setRevealed] = createSignal(initiallyRevealed);
 
@@ -39,19 +52,22 @@ export function LetterBox({
 
   function doReveal() {
     setRevealed(true);
-    onRevealed?.();
+
+    const isLast = colNum === store.wordleState.solution.length - 1;
+    if (isLast) {
+      store.continueGame?.();
+    }
   }
 
   createEffect(() => {
+    const revealDelaySeconds = colNum * (1 / store.wordleState.solution.length);
+
     if (isSubmitted() && !revealed()) {
       // Don't do a delay during tests:
       if (globalThis?.process?.env?.JEST_WORKER_ID) {
         doReveal();
       } else {
-        const timeout = setTimeout(
-          doReveal,
-          (revealDelaySeconds() ?? 0) * 1000
-        );
+        const timeout = setTimeout(doReveal, (revealDelaySeconds ?? 0) * 1000);
         return () => clearTimeout(timeout);
       }
     }
